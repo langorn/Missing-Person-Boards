@@ -1,0 +1,43 @@
+{
+  "name": "missing-person-boards",
+  "version": "1.0.0",
+  "description": "Near Protocol Certificate Submission - implementation for near protocol certification project.",
+  "main": "index.js",
+  "scripts": {
+    "asbuild:untouched": "asc assembly/index.ts --target debug",
+    "asbuild:optimized": "asc assembly/index.ts --target release",
+    "asbuild": "npm run asbuild:untouched && npm run asbuild:optimized",
+    "build": "npm run build:contract && npm run build:web",
+    "build:contract": "node asconfig.js",
+    "build:web": "parcel build src/index.html --public-url ./",
+    "dev:deploy:contract": "near dev-deploy",
+    "deploy:contract": "near deploy",
+    "deploy:pages": "gh-pages -d dist/",
+    "deploy": "npm run build && npm run deploy:contract && npm run deploy:pages",
+    "prestart": "npm run build:contract && npm run dev:deploy:contract",
+    "start": "env-cmd -f ./neardev/dev-account.env parcel src/index.html",
+    "dev": "nodemon --watch assembly -e ts --exec \"npm run start\"",
+    "test": "asp --nologo && npm run build:contract && jest test --runInBand"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/langorn/Missing-Person-Boards.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/langorn/Missing-Person-Boards/issues"
+  },
+  "homepage": "https://github.com/langorn/Missing-Person-Boards#readme",
+  "dependencies": {
+    "@assemblyscript/loader": "^0.19.22",
+    "asbuild": "^0.2.0",
+    "near-api-js": "^0.44.2",
+    "near-cli": "^3.1.0"
+  },
+  "devDependencies": {
+    "@as-pect/cli": "^6.2.4",
+    "assemblyscript": "^0.19.22",
+    "near-sdk-as": "^3.2.3"
+  }
+}
