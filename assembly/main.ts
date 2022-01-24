@@ -16,25 +16,20 @@ import {
   } from "near-sdk-as";
 import { BulletinPost } from "./model";
 
-  let bulletinBoard = new PersistentVector<BulletinPost>("bulletinBoard");
-  export function buyPostCredit(
-    sender: string, 
+  // let bulletinBoard = new PersistentVector<BulletinPost>("bulletinBoard");
+  export function create(sender: string, 
     imgUrl: string,
     location: string,
     description: string,
     contact: string,
-    ): void {
-
-      let bulletPost = new PersistentMap<string, string>("bulletinPost");
-      bulletPost.set('sender', sender);
-      bulletPost.set('imgUrl', imgUrl);
-      bulletPost.set('location', location);
-      bulletPost.set('description', description);
-      bulletPost.set('contact', contact);
-  }
+    postLeft: u32,
+    ): BulletinPost {
+       let bulletinPost = BulletinPost.buyCredit(sender, imgUrl, location, description, contact, postLeft);
+      return bulletinPost;
+    }
 
   export function postBulletion(bp: BulletinPost): void {
       let postLeft = bp.postLeft > 0 ? bp.postLeft -= 1 : 0;
       // bp.set('postLeft', postLeft);
-      bulletinBoard.push(bp);
+      // bulletinBoard.push(bp);
   }
