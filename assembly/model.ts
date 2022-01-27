@@ -1,12 +1,12 @@
 import { PersistentUnorderedMap,PersistentMap,  math, Value } from "near-sdk-as";
-import { postBulletion } from "./main";
 
 
-export const bulletinBoard = new PersistentUnorderedMap<u32, BulletinPost>("bulletinBoard");
+
+export const bulletinBoard = new PersistentUnorderedMap<u64, BulletinPost>("bulletinBoard");
 // Export a new class
 @nearBindgen
 export class BulletinPost {
-    postId: u32;
+    postId: u64;
     sender: string;
     // timeMs: i32;
     imgUrl: string;
@@ -16,7 +16,9 @@ export class BulletinPost {
     postLeft: u32;
 
     constructor(sender: string, imgUrl: string, location: string, description: string, contact: string) {
-        this.postId =  math.hash32<string>('taskx');
+        let dateData = Date.now();
+        // let timestamp = dateData.getUTCMilliseconds;
+        this.postId =  math.hash32<u64>(dateData);
         this.sender = sender;
         this.imgUrl = imgUrl;
         this.location = location;
@@ -36,17 +38,16 @@ export class BulletinPost {
         postLeft: u32
         ): BulletinPost {
             let bltPost = new BulletinPost(sender, imgUrl, location, description, contact);
-        //   let bulletPost = new PersistentMap<string, string>("bulletinPost");
-        //   bulletPost.set('sender', sender);
-        //   bulletPost.set('imgUrl', imgUrl);
-        //   bulletPost.set('location', location);
-        //   bulletPost.set('description', description);
-        //   bulletPost.set('contact', contact);
             bulletinBoard.set(bltPost.postId, bltPost);
             return bltPost;
       }
-    // set (key: val){
 
-    // }
+      static getBulletins (): PersistentUnorderedMap<u64, BulletinPost> {
+          return bulletinBoard;
+      }
+      
+      static getBulletin (id: u64): BulletinPost {
+          return bulletinBoard.getSome(id);
+      }
     
 }
