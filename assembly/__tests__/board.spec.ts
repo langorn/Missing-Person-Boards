@@ -1,8 +1,9 @@
 import { create, getBulletinPost, getBulletinPosts } from '../main';
-import { BulletinPost, bulletinBoard } from '../model';
+import { bulletinBoard } from '../model';
 import { VMContext, Context, u128 } from 'near-sdk-as';
 
 describe("create a contract", () => {
+   
     it("create a post", () => {
         const missingPost = create("me", "aaaa.img", "singapore,singapore", "My Cat is missing", "0142292920", 100);
         expect(bulletinBoard.getSome(missingPost.postId)).toStrictEqual(missingPost);
@@ -17,4 +18,5 @@ describe("create a contract", () => {
         expect(getBulletinPost(missingPost2.postId)).toStrictEqual(missingPost2);
         expect(getBulletinPost(missingPost3.postId)).toStrictEqual(missingPost3);
     })
+
 })

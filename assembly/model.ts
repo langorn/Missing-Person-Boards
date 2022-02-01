@@ -1,12 +1,12 @@
-import { PersistentUnorderedMap,PersistentMap,  math, Value } from "near-sdk-as";
+import { PersistentUnorderedMap,  math } from "near-sdk-as";
 
 
-
-export const bulletinBoard = new PersistentUnorderedMap<u64, BulletinPost>("bulletinBoard");
+@nearBindgen
+export const bulletinBoard = new PersistentUnorderedMap<u32, BulletinPost>("bulletinBoard");
 // Export a new class
 @nearBindgen
 export class BulletinPost {
-    postId: u64;
+    postId: u32;
     sender: string;
     // timeMs: i32;
     imgUrl: string;
@@ -18,7 +18,8 @@ export class BulletinPost {
     constructor(sender: string, imgUrl: string, location: string, description: string, contact: string) {
         let dateData = Date.now();
         // let timestamp = dateData.getUTCMilliseconds;
-        this.postId =  math.hash32<u64>(dateData);
+        let randomNum:u32 = u32(Math.random() * 1000000);
+        this.postId =  math.hash32<u32>(randomNum);
         this.sender = sender;
         this.imgUrl = imgUrl;
         this.location = location;
@@ -42,11 +43,11 @@ export class BulletinPost {
             return bltPost;
       }
 
-      static getBulletins (): PersistentUnorderedMap<u64, BulletinPost> {
+      static getBulletins (): PersistentUnorderedMap<u32, BulletinPost> {
           return bulletinBoard;
       }
       
-      static getBulletin (id: u64): BulletinPost {
+      static getBulletin (id: u32): BulletinPost {
           return bulletinBoard.getSome(id);
       }
     

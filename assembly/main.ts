@@ -18,6 +18,7 @@ import {
 import { BulletinPost } from "./model";
 
   // let bulletinBoard = new PersistentVector<BulletinPost>("bulletinBoard");
+  
   export function create(sender: string, 
       imgUrl: string,
       location: string,
@@ -28,19 +29,19 @@ import { BulletinPost } from "./model";
         let bulletinPost = BulletinPost.buyCredit(sender, imgUrl, location, description, contact, postLeft);
         return bulletinPost;
       }
-
+  
   export function postBulletin(bp: BulletinPost): void {
       let postLeft = bp.postLeft > 0 ? bp.postLeft -= 1 : 0;
       // bp.set('postLeft', postLeft);
       // bulletinBoard.push(bp);
   }
-
+  
   export function getBulletinPosts(): PersistentUnorderedMap<u32, BulletinPost>  {
        let boards = BulletinPost.getBulletins();
        return boards;
   }
-
-  export function getBulletinPost(id: u64): BulletinPost  {
+  
+  export function getBulletinPost(id: u32): BulletinPost  {
       let bulletin = BulletinPost.getBulletin(id);
       return bulletin;
   }
