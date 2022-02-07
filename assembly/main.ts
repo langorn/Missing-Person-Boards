@@ -24,24 +24,24 @@ import { BulletinPost } from "./model";
       location: string,
       description: string,
       contact: string,
-      postLeft: u32,
+      //postLeft: i32,
       ): BulletinPost {
-        let bulletinPost = BulletinPost.buyCredit(sender, imgUrl, location, description, contact, postLeft);
+        const bulletinPost = new BulletinPost(sender, imgUrl, location, description, contact);
         return bulletinPost;
       }
   
   export function postBulletin(bp: BulletinPost): void {
-      let postLeft = bp.postLeft > 0 ? bp.postLeft -= 1 : 0;
+      //let postLeft = bp.postLeft > 0 ? bp.postLeft -= 1 : 0;
       // bp.set('postLeft', postLeft);
       // bulletinBoard.push(bp);
   }
   
-  export function getBulletinPosts(): PersistentUnorderedMap<u32, BulletinPost>  {
-       let boards = BulletinPost.getBulletins();
+  export function getBulletinPosts(): PersistentUnorderedMap<i32, BulletinPost>  {
+      let boards = BulletinPost.getBulletins();
        return boards;
   }
   
-  export function getBulletinPost(id: u32): BulletinPost  {
+  export function getBulletinPost(id: i32): BulletinPost  {
       let bulletin = BulletinPost.getBulletin(id);
       return bulletin;
   }

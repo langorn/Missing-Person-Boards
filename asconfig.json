@@ -1,6 +1,23 @@
 {
   "extends": "near-sdk-as/asconfig.json",
-  "entry": "assembly/main.ts",
+  "entry": "assembly/index.ts",
+  "targets": {
+    "debug": {
+      "binaryFile": "out/main2.wasm",
+      "textFile": "out/main2.wat",
+      "sourceMap": true,
+      "debug": true
+    },
+    "release": {
+      "binaryFile": "out/main.wasm",
+      "textFile": "out/main.wat",
+      "sourceMap": true,
+      "optimizeLevel": 3,
+      "shrinkLevel": 0,
+      "converge": false,
+      "noAssert": false
+    }
+  },
   "options": {
       "binaryFile": "out/main.wasm"
   }
