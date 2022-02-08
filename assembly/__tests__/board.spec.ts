@@ -6,7 +6,7 @@ describe("create a contract", () => {
    
     it("create a post", () => {
         const missingPost = create("me21", "aaaa.img", "singapore,singapore", "My Cat is missing", "0142292920");
-        expect(bulletinBoard.getSome(missingPost.postId)).toStrictEqual(missingPost);
+        expect(bulletinBoard.getSome(missingPost.id)).toStrictEqual(missingPost);
     })
 
     it(" get single post information", () => {
@@ -14,9 +14,9 @@ describe("create a contract", () => {
         const missingPost2 = create("me2", "aaaa.img", "singapore,singapore", "My Cat is missing", "0142292920");
         const missingPost3 = create("me3", "aaaa.img", "singapore,singapore", "My Cat is missing", "0142292920");
         // get those data we just generate
-        expect(getBulletinPost(missingPost1.postId)).toStrictEqual(missingPost1);
-        expect(getBulletinPost(missingPost2.postId)).toStrictEqual(missingPost2);
-        expect(getBulletinPost(missingPost3.postId)).toStrictEqual(missingPost3);
+        expect(getBulletinPost(missingPost1.id)).toStrictEqual(missingPost1);
+        expect(getBulletinPost(missingPost2.id)).toStrictEqual(missingPost2);
+        expect(getBulletinPost(missingPost3.id)).toStrictEqual(missingPost3);
     })
 
 })

@@ -30,12 +30,12 @@ import { BulletinPost } from "./model";
       }
   
    
-  export function getBulletinPosts(): PersistentUnorderedMap<i32, BulletinPost>  {
+  export function getBulletinPosts(): PersistentUnorderedMap<string, BulletinPost>  {
       let boards = BulletinPost.getBulletins();
        return boards;
   }
   
-  export function getBulletinPost(id: i32): BulletinPost  {
+  export function getBulletinPost(id: string): BulletinPost  {
       let bulletin = BulletinPost.getBulletin(id);
       return bulletin;
   }

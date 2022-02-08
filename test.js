@@ -120,14 +120,14 @@ async function test() {
         // postLeft: 100
     }
     });
-
-   //let alice_message = await aliceUseContract.getBulletinPost({args : {postId: aliceContract.postId}})
+   console.log(aliceContract);
+   let alice_message = await aliceUseContract.getBulletinPost({id: aliceContract.id})
 //  //   await aliceUseContract.set_status({ args: { message: "hello" } });
 //   // let alice_message = await aliceUseContract.get_status({
 //   //   account_id: "alice.test.near",
 //   // });
-    //assert.equal(alice_message, aliceContract);
-
+   //assert.equal(alice_message, aliceContract);
+   assert.deepStrictEqual(alice_message, aliceContract);
   // 3. Gets Bob's status and which should be `null` as Bob has not yet set status
 //   let bob_message = await bobUseContract.get_status({
 //     account_id: "bob.test.near",
