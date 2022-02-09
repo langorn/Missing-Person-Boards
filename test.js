@@ -2,6 +2,7 @@ const nearAPI = require("near-api-js");
 const BN = require("bn.js");
 const fs = require("fs").promises;
 const assert = require("assert").strict;
+CONTRACT_NAME = "missing-person-board.test.near";
 
 function getConfig(env) {
   switch (env) {
@@ -11,7 +12,7 @@ function getConfig(env) {
         networkId: "sandbox",
         nodeUrl: "http://localhost:3030",
         masterAccount: "test.near",
-        contractAccount: "cguestbooks1928.test.near",
+        contractAccount: CONTRACT_NAME,
         keyPath: "/tmp/near-sandbox/validator_key.json",
       };
   }
@@ -19,7 +20,6 @@ function getConfig(env) {
 
 const contractMethods = {
   viewMethods: ["getBulletinPosts", "getBulletinPost"],
-  // viewMethods: ["getBulletinPost"],
   changeMethods: ["create"],
 };
 let config;
@@ -46,7 +46,7 @@ async function initNear() {
     nodeUrl: config.nodeUrl,
   });
   masterAccount = new nearAPI.Account(near.connection, config.masterAccount);
-//   console.log("Finish init NEAR");
+  console.log("Finish init NEAR");
 }
 
 async function createContractUser(
@@ -77,10 +77,9 @@ async function initTest() {
     pubKey,
     contract,
     new BN(10).pow(new BN(25))
-  );
-//   console.log(`pub key : ${pubKey}`)
-  const aliceUseContract = await createContractUser(
-    "alice",
+  ); 
+  const akiUseContract = await createContractUser(
+    "aki",
     config.contractAccount,
     contractMethods
   );
@@ -90,60 +89,52 @@ async function initTest() {
     config.contractAccount,
     contractMethods
   );
-//   console.log("Finish deploy contracts and create test accounts");
-  return { aliceUseContract, bobUseContract };
+  return { akiUseContract, bobUseContract };
 }
 
 async function test() {
   // 1. Creates testing accounts and deploys a contract
   await initNear();
-  const { aliceUseContract, bobUseContract  } = await initTest();
+  const { akiUseContract, bobUseContract  } = await initTest();
 
-  // 2. Performs a `set_status` transaction signed by Alice and then calls `get_status` to confirm `set_status` worked
-  //console.log('working now');
-
-//   let args = {
-//     sender: "meme1", 
-//     imgUrl: "aaxx.img",
-//     location: "singapore",
-//     description: "my cat is missing",
-//     contact: "01429231881",
-//     postLeft: 100
-//     }
-  let aliceContract = await aliceUseContract.create({
+  // first test - create
+  let akiContract = await akiUseContract.create({
     args: {
-        sender: "meme1", 
-        imgUrl: "aaxx.img",
-        location: "singapore",
+        sender: "Aki", 
+        imgUrl: "aki.img",
+        location: "Singapore",
         description: "my cat is missing",
-        contact: "01429231881",
-        // postLeft: 100
+        contact: "01429231881"
     }
     });
-   console.log(aliceContract);
-   let alice_message = await aliceUseContract.getBulletinPost({id: aliceContract.id})
-//  //   await aliceUseContract.set_status({ args: { message: "hello" } });
-//   // let alice_message = await aliceUseContract.get_status({
-//   //   account_id: "alice.test.near",
-//   // });
-   //assert.equal(alice_message, aliceContract);
-   assert.deepStrictEqual(alice_message, aliceContract);
-  // 3. Gets Bob's status and which should be `null` as Bob has not yet set status
-//   let bob_message = await bobUseContract.get_status({
-//     account_id: "bob.test.near",
-//   });
-//   assert.equal(bob_message, null);
+   console.log(akiContract);
 
-//   // 4. Performs a `set_status` transaction signed by Bob and then calls `get_status` to show Bob's changed status and should not affect Alice's status
-//   await bobUseContract.set_status({ args: { message: "world" } });
-//   bob_message = await bobUseContract.get_status({
-//     account_id: "bob.test.near",
-//   });
-//   assert.equal(bob_message, "world");
-//   alice_message = await aliceUseContract.get_status({
-//     account_id: "alice.test.near",
-//   });
-//   assert.equal(alice_message, "hello");
+  // 1a test - getBulletinPost
+   let akiMessage = await akiUseContract.getBulletinPost({id: akiContract.id})
+   assert.deepEqual(akiMessage, akiContract);
+   console.log('test 1a - After test for get single post');
+
+  //  test - create
+  let bobContract = await bobUseContract.create({
+    args: {
+        sender: "Bob", 
+        imgUrl: "bob.img",
+        location: "Thailand",
+        description: "my rabbit is missing",
+        contact: "01429222551"
+    }
+    });
+   console.log(bobContract);
+
+  // 1b test - getBulletinPost
+   let bobMessage = await bobUseContract.getBulletinPost({id: bobContract.id})
+   assert.deepEqual(bobMessage, bobContract);
+   console.log('test 1b - After test for get single post');
+
+
+  // third test - getBulletinPosts
+   let allPost = await akiUseContract.getBulletinPosts();
+   console.log(allPost)
 }
 
 test();
