@@ -100,7 +100,6 @@ async function test() {
   // first test - create
   let akiContract = await akiUseContract.create({
     args: {
-        sender: "Aki", 
         imgUrl: "aki.img",
         location: "Singapore",
         description: "my cat is missing",
@@ -117,7 +116,6 @@ async function test() {
   //  test - create
   let bobContract = await bobUseContract.create({
     args: {
-        sender: "Bob", 
         imgUrl: "bob.img",
         location: "Thailand",
         description: "my rabbit is missing",

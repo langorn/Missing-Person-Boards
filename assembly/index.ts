@@ -11,13 +11,13 @@ import {
 import { BulletinPost } from "./model";
 
   // create a new post at missing person board
-  export function create(sender: string, 
+  export function create(
       imgUrl: string,
       location: string,
       description: string,
       contact: string
       ): BulletinPost {
-        const bulletinPost = BulletinPost.newBulletinPost(sender, imgUrl, location, description, contact);
+        const bulletinPost = BulletinPost.newBulletinPost(imgUrl, location, description, contact);
         return bulletinPost;
       }
   

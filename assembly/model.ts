@@ -1,4 +1,4 @@
-import { PersistentUnorderedMap,  math, base64 } from "near-sdk-as";
+import { PersistentUnorderedMap,  math, base64, context } from "near-sdk-as";
 import { seed2 } from "./bar"
 
 // a missing person board 
@@ -21,9 +21,9 @@ export class BulletinPost {
     description: string;
     contact: string;
 
-    constructor(sender: string, imgUrl: string, location: string, description: string, contact: string) {
+    constructor(imgUrl: string, location: string, description: string, contact: string) {
         this.id = generateRandomDna();
-        this.sender = sender;
+        this.sender = context.sender;
         this.imgUrl = imgUrl;
         this.location = location;
         this.description = description;
@@ -32,13 +32,12 @@ export class BulletinPost {
 
      // create a new post in the board
      static newBulletinPost(
-            sender: string, 
             imgUrl: string,
             location: string,
             description: string,
             contact: string
       ): BulletinPost {
-            const bltPost = new BulletinPost(sender, imgUrl, location, description, contact);
+            const bltPost = new BulletinPost(imgUrl, location, description, contact);
             bulletinBoard.set(bltPost.id, bltPost);
             return bltPost;
       }
