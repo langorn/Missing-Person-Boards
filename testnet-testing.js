@@ -53,12 +53,12 @@ let keyStore;
 
 async function initNear() {
     // connect to NEAR
-    // const near = await connect(config);
-    // const account = await near.account("zhro2.testnet");
     const keyFile = require(contractSetting.keyPath);
+    console.log(keyFile)
     masterKey = nearAPI.utils.KeyPair.fromString(
       keyFile.secret_key || keyFile.private_key
     );
+    console.log(masterKey);
     pubKey = masterKey.getPublicKey();
     keyStore = new nearAPI.keyStores.InMemoryKeyStore();
     keyStore.setKey(config.networkId, contractSetting.masterAccount, masterKey);
@@ -71,12 +71,6 @@ async function initNear() {
     });
 
     masterAccount = await near.account(`${MASTER_ACC}`);
-
-    // generate a new public key for the contract
-    // keyPair = KeyPair.fromRandom("ed25519");
-    // pubKey = keyPair.publicKey.toString();
-    // await keyStore.setKey(config.networkId, contractSetting.contractAccount, keyPair);
-
     console.log("Finish init NEAR");
 }
 
@@ -85,17 +79,13 @@ async function createContractUser(
   contractAccountId,
   contractMethods
 ) {
-  // generate a new public key for new user
-  keyPair = KeyPair.fromRandom("ed25519");
-  pubKey = keyPair.publicKey.toString();
-
   let accountId = accountPrefix + "." + contractSetting.masterAccount;
   await masterAccount.createAccount(
     accountId,
     pubKey,
     new BN(10).pow(new BN(25))
   );
-  keyStore.setKey(config.networkId, accountId, keyPair);
+  keyStore.setKey(config.networkId, accountId, masterKey);
   const account = await new nearAPI.Account(near.connection, accountId);
   const accountUseContract = await new nearAPI.Contract(
     account,
@@ -127,7 +117,6 @@ async function initTest() {
 
 async function test() {
 
-
     await initNear();
     const { akiUseContract } = await initTest();
     let akiContract = await akiUseContract.create({
@@ -144,9 +133,11 @@ async function test() {
     let akiMessage = await akiUseContract.getBulletinPost({id: akiContract.id})
     assert.deepEqual(akiMessage, akiContract);
     console.log('test 1a - After test for get single post');
-    // const response = await account.state();
-    // let response = await contractInfo.getBulletinPosts();
-    // console.log(response);
+
+    // third test - getBulletinPosts
+    let allPost = await akiUseContract.getBulletinPosts();
+    console.log(allPost)
+
 }
 
 test();
