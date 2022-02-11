@@ -21,9 +21,31 @@ run `yarn build`
 #### Run unit tests
     yarn test         
 
+#### Deploy Contract to Testnet
+    yarn deploy  
 
 ## Contract
 
+## Bash and Near CLI
+#### Please run this test script in `scripts` folder
+    cd scripts
+    bash init.sh
+    
+#### Follow the instruction and type in the terminal
+
+export CONTRACT=dev_************ (replace with contract id returned after dev-deploy contract, or just paste it)
+
+
+    1. CREATE POST (edit inside bash if you want different value)
+    near call $CONTRACT create '{"imgUrl":"http://www.example.com/1.jpg", "location":"Malaysia", "description":"My Cat is Missing", "contact":"+60182929992"}' --accountId zhro2.testnet
+
+    2. Retrieve All Posts
+    near view $CONTRACT getBulletionPosts
+
+    3. Retrieve Single Post
+    near view $CONTRACT getBulletionPost '{"id":"UnorderedMap_Id"}' --accountId zhro2.testnet
+
+## NodeJS Unit Test
 #### Please run this test script in the following format:
     Format:
     node testnet-testing.js MASTER_ACC.testnet CONTRACT_NAME TESTER_ACC
