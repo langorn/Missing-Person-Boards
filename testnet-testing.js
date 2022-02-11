@@ -54,11 +54,9 @@ let keyStore;
 async function initNear() {
     // connect to NEAR
     const keyFile = require(contractSetting.keyPath);
-    console.log(keyFile)
     masterKey = nearAPI.utils.KeyPair.fromString(
       keyFile.secret_key || keyFile.private_key
     );
-    console.log(masterKey);
     pubKey = masterKey.getPublicKey();
     keyStore = new nearAPI.keyStores.InMemoryKeyStore();
     keyStore.setKey(config.networkId, contractSetting.masterAccount, masterKey);

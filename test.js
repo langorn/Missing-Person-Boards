@@ -58,7 +58,7 @@ async function createContractUser(
   await masterAccount.createAccount(
     accountId,
     pubKey,
-    new BN(10).pow(new BN(25))
+    new BN(3).pow(new BN(25))
   );
   keyStore.setKey(config.networkId, accountId, masterKey);
   const account = await new nearAPI.Account(near.connection, accountId);
@@ -76,7 +76,7 @@ async function initTest() {
     config.contractAccount,
     pubKey,
     contract,
-    new BN(10).pow(new BN(25))
+    new BN(3).pow(new BN(25))
   ); 
   const akiUseContract = await createContractUser(
     "aki",
