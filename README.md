@@ -1,5 +1,5 @@
 # Missing-Person-Boards
-Near Protocol Certificate Submission - implementation for near protocol certification project.
+Near Protocol Certificate Submission - Implementation for Near Protocol Certification Project.
 
 
 ## Concept
@@ -33,11 +33,12 @@ run `yarn build`
 
 
 ## Features
-### create - Create a Post
+### Create 
+  *Create a Post*
 
 `npx near call CONTRACT_NAME create '{"imgUrl":"..." , "location": "...", "description": "...", "contact": "..."}' --accountId YOUR_ACC.testnet`
 
-Example
+*example*
 
 `npx near call mbp32.zhro2.testnet create '{"imgUrl":"http://www.example.com/1.jpg" , "location": "Thailand", "description": "my rabbit is missing", "contact": "+60182208192"}' --accountId zhro2.testnet`
 
@@ -50,11 +51,12 @@ Example
       contact: '+60182208192'
     }
 
-### getBulletinPosts - Retrieve All Posts
-
+### getBulletinPosts
+ *Retrieve All Posts*
+ 
 `near view CONTRACT_NAME getBulletinPosts`
 
-Example
+*example*
 
 `near view mbp32.zhro2.testnet getBulletinPosts`
 
@@ -69,11 +71,12 @@ Example
         contact: '01429231881'
       }
 
-### getBulletinPost - Retrieve Single Post
-
+### getBulletinPost
+ *Retrieve Single Post*
+ 
 `near view CONTRACT_NAME getBulletinPost '{"id": "..."}' --accountId YOUR_ACC.testnet`
 
-Example
+*example*
 
 `npx near view mbp32.zhro2.testnet getBulletinPost '{"id":"5mTjcCRvRhAMrgxbcBiGV8hwx/k="}' --accountId zhro2.testnet`
 
@@ -88,7 +91,7 @@ Example
     }
 
 ## Other documentation
-#### Lottery contract and test documentation
+#### BulletinBoard contract and test documentation
 
 see `assembly/__tests__/boards.spec.ts` for Bulletin unit testing details
 BulletinBoard contract simulation tests
